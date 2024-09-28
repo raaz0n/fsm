@@ -33,20 +33,20 @@ else
     exit 1
 fi
 
-if [ -f "$BASE_DIR/src/flutter/clean_arch_script.sh" ]; then
-    source "$BASE_DIR/src/flutter/clean_arch_script.sh"
+if [ -f "$BASE_DIR/src/dart/clean_arch_script.sh" ]; then
+    source "$BASE_DIR/src/dart/clean_arch_script.sh"
 else
-    echo "Error: src/flutter/clean_arch_script.sh not found."
+    echo "Error: src/dart/clean_arch_script.sh not found."
     exit 1
 fi
 
 # Main function
 opt=$1
 case $opt in
--h | help) fsmHelp ;;
--v | version) fsmInformation ;;
--d | doctor) checkFlutterVersion ;;
--ls | list) locallyInstalledFlutterVersionsList ;;
+-h | help | h) fsmHelp ;;
+-v | version | v) fsmInformation ;;
+-d | doctor | d) checkFlutterVersion ;;
+-ls | list | ls ) locallyInstalledFlutterVersionsList ;;
 update) updateFSMVersion ;;
 use)
     version_to_use=$2
@@ -64,7 +64,7 @@ install)
         logError "Please provide a version number after 'install' option."
     fi
     ;;
-remove)
+-r | remove)
     version_to_remove=$2
     if [ -n "$version_to_remove" ]; then
         removeFlutterVersion "$version_to_remove"
@@ -72,7 +72,7 @@ remove)
         logError "Please provide a version number after 'remove' option."
     fi
     ;;
-upgradeFlutterSDK) upgradeFlutterSDK ;;
+flutter-upgrade) upgradeFlutterSDK ;;
 create)
     applicationName=$2
     if [ -n "$applicationName" ]; then

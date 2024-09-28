@@ -95,40 +95,23 @@ createFlutterProject() {
 #@example : createFeatureFoldersStr "home"
 
 createFeatureFoldersStr() {
-    is_flutter_project
+    # is_flutter_project
     local featureName="$1"
 
-    if [ -d "$featureName" ]; then
-        echo
-        logError "Feature '$featureName' already exists. Please choose a different name."
-        echo
-        exit 1
+    command="dart $BASE_DIR/src/dart/feature/feature.dart $featureName"
+    # Execute the command and capture the output and status
+    run_with_spinner "Checking feature $featureName exists or not..." "" printf ""
+    output=$(eval "$command" 2>&1)
+    status=$?
+    # Check if the Dart command was successful
+    if [ $status -ne 0 ]; then
+        # statis code is 4 then already exist
+        if [ "$status" -eq "$CONFLICT_CODE" ]; then
+            logError "Feature $featureName already exists."
+            exit $status
+        fi
+        logError "$output"
+        exit $status
     fi
-
-    mkdir -p "$featureName/data/datasource/local"
-    touch "$featureName/data/datasource/local/.gitkeep"
-    mkdir -p "$featureName/data/datasource/remote"
-    touch "$featureName/data/datasource/remote/.gitkeep"
-    mkdir -p "$featureName/data/models"
-    touch "$featureName/data/models/.gitkeep"
-    mkdir -p "$featureName/data/repository"
-    touch "$featureName/data/repository/.gitkeep"
-
-    mkdir -p "$featureName/domain/entity"
-    touch "$featureName/domain/entity/.gitkeep"
-    mkdir -p "$featureName/domain/repository"
-    touch "$featureName/domain/repository/.gitkeep"
-    mkdir -p "$featureName/domain/usecase"
-    touch "$featureName/domain/usecase/.gitkeep"
-
-    mkdir -p "$featureName/presentation/bloc"
-    touch "$featureName/presentation/bloc/.gitkeep"
-    mkdir -p "$featureName/presentation/screen"
-    touch "$featureName/presentation/screen/.gitkeep"
-    mkdir -p "$featureName/presentation/widget"
-    touch "$featureName/presentation/widget/.gitkeep"
-
-    echo
-    printf "%b👉 Folder structure created successfully for feature: %s 👏%b\n" "$GREEN" "$featureName" "$NC"
-    echo
+    run_with_spinner "Creating feature $featureName..." "Feature $featureName created successfully." printf ""
 }

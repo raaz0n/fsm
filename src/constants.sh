@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VERSION='1.0.1'
+export VERSION='1.1.0'
 
 # Colors Code
 export RED='\033[0;31m'
@@ -23,6 +23,8 @@ export PACKAGE_INFO='
 '
 # full name
 export PACKAGE_NAME='Flutter SDK Manager Tool'
+
+export CONFLICT_CODE=4
 
 # desc
 export DESC='A CLI tool for simplifying Flutter SDK management,
